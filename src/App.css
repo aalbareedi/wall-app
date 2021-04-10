@@ -11,7 +11,7 @@
 }
 
 body {
-  background-color: whitesmoke;
+  background-color: silver;
 }
 
 nav {
@@ -21,15 +21,16 @@ nav {
 }
 
 .wallLogo {
-  width: 50px;
-  margin-top: 5px;
-  margin-left: 5px;
+  width: 54px;
+  margin: 8px 0 0 8px;
 }
 
 .logoText {
   position: absolute;
-  left: 58px;
-  top: 21px;
+  left: 64px;
+  top: 26px;
+  font-family: "Baloo 2", cursive;
+  font-size: 20px;
 }
 
 .navLoginBtn {
@@ -38,13 +39,15 @@ nav {
   top: 0;
   height: 100%;
   width: 72px;
+  background-color: #bbf2fb;
 }
 
 .navLoginIcon {
-  font-size: 30px;
+  font-size: 28px;
   text-align: center;
   display: block;
-  padding-top: 11px;
+  padding-top: 12px;
+  color: #202020;
 }
 
 .navLoginText {
@@ -53,46 +56,72 @@ nav {
   font-size: 14px;
 }
 
+.currentUser {
+  background-color: #0f7b8c;
+  height: 26px;
+  font-size: 14px;
+  padding: 4px 0 0 14px;
+  font-style: italic;
+}
+
+.currentUserName {
+  font-weight: bold;
+  color: whitesmoke;
+}
+
 .wallFeed {
-  padding: 10px;
+  padding: 12px;
 }
 
 .newPost {
   border-radius: 20px;
   background: white;
-  border: 2px solid gainsboro;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .wallPost {
-  height: 200px;
   border-radius: 20px;
-  background: gainsboro;
-  margin-bottom: 10px;
+  background: #bbf2fb;
+  margin-bottom: 12px;
+}
+
+.wallPostUser {
+  background-color: #27b2c8;
+  height: 40px;
+  border-radius: 20px 20px 0 0;
+  padding: 12px 0 0 14px;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.wallPostUserName {
+  font-weight: bold;
+}
+
+.wallPostMessage {
+  padding: 14px 14px 16px 14px;
+  font-size: 14px;
+  line-height: 18px;
 }
 
 .newPostInput {
+  border: none;
   display: block;
   width: 100%;
-  border-radius: 20px 20px 0 0;
+  border-radius: 18px 18px 0 0;
   padding: 10px 14px;
   resize: none;
+  font-size: 14px;
 }
 
-.newPostBtn {
+.postBtn {
   height: 44px;
-  width: 50%;
+  width: 100%;
   border: none;
-}
-
-#addBtn {
-  background-color: #a5a5a5;
-  border-radius: 0 0 0 18px;
-}
-
-#postBtn {
   background-color: #62ca62;
-  border-radius: 0 0 18px 0;
+  border-radius: 0 0 18px 18px;
+  font-family: "Baloo 2", cursive;
+  font-size: 18px;
 }
 
 .loginOverlay {
@@ -116,24 +145,19 @@ nav {
   background: white;
   width: 280px;
   margin: 0 auto;
-  padding: 40px 0 30px 0;
+  padding: 40px 20px 30px 20px;
   border-radius: 20px;
 }
 
-.loginInput {
-  display: block;
-  margin: 0 auto;
+.loginInput,
+.signUpInput {
   height: 40px;
-  width: 240px;
+  width: 100%;
   margin-bottom: 10px;
   border: 1px solid silver;
   border-radius: 6px;
   padding-left: 10px;
   font-size: 14px;
-}
-
-.loginInput:nth-child(2) {
-  margin-bottom: 20px;
 }
 
 .loginWindowBtns {
@@ -148,11 +172,17 @@ nav {
 
 #loginAccountBtn {
   background-color: #27b2c8;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 
-#createAccountBtn {
+#createAccountBtn,
+#signUpBtn {
   background-color: #62ca62;
+}
+
+#signUpBtn {
+  margin-top: 10px;
 }
 
 .closeLoginWindowBtn,
@@ -165,23 +195,49 @@ nav {
   left: -12px;
   border-radius: 50%;
   border: none;
+  color: whitesmoke;
+  font-size: 18px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .signUpWindow {
   position: relative;
   background: white;
   width: 280px;
-  height: 300px;
   margin: 0 auto;
-  padding: 40px 0 30px 0;
+  padding: 40px 20px 30px 20px;
   border-radius: 20px;
 }
 
-.signUpNameInput {
+.nameInput {
   width: 50%;
+  border: 1px solid silver;
+  border-radius: 6px;
+  height: 40px;
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+.nameInput:first-child {
+  margin-right: 10px;
 }
 
 .nameInputField {
-  padding: 0 20px;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.inputErrors {
+  font-size: 14px;
 }
 /*# sourceMappingURL=App.css.map */
