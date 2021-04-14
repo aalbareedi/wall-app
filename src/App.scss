@@ -3,14 +3,19 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-appearance: none;
   box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 .hideElement {
   display: none !important;
 }
-
+button {
+  cursor: pointer;
+}
 body {
-  background-color: silver;
+  background: linear-gradient(135deg, #a0a0a0 0%, #f5f5f5 100%);
 }
 nav {
   height: 70px;
@@ -24,24 +29,24 @@ nav {
 .logoText {
   position: absolute;
   left: 64px;
-  top: 26px;
+  top: 25px;
   font-family: "Baloo 2", cursive;
-  font-size: 20px;
+  font-size: 22px;
 }
 .navLoginBtn {
+  border: none;
   position: absolute;
   right: 0;
   top: 0;
   height: 100%;
   width: 72px;
   background-color: #bbf2fb;
-  // background: rgba(149, 240, 255, 0.7);
 }
 .navLoginIcon {
   font-size: 28px;
   text-align: center;
   display: block;
-  padding-top: 12px;
+  padding-top: 2px;
   color: #202020;
 }
 .navLoginText {
@@ -51,9 +56,9 @@ nav {
 }
 .currentUser {
   background-color: #0f7b8c;
-  height: 26px;
+  height: 30px;
   font-size: 14px;
-  padding: 4px 0 0 14px;
+  padding: 6px 0 0 14px;
   font-style: italic;
 }
 .currentUserName {
@@ -66,14 +71,25 @@ nav {
 .newPost {
   border-radius: 20px;
   background: white;
-  // border: 2px solid gainsboro;
   margin-bottom: 12px;
 }
 .wallPost {
-  // height: 180px;
   border-radius: 20px;
   background: #bbf2fb;
   margin-bottom: 12px;
+  position: relative;
+}
+.deletePostBtn {
+  position: absolute;
+  border: none;
+  top: 0px;
+  right: 0px;
+  height: 40px;
+  width: 40px;
+  border-radius: 0 20px 0 0;
+  background: none;
+  color: #202020;
+  font-size: 16px;
 }
 .wallPostUser {
   background-color: #27b2c8;
@@ -82,6 +98,7 @@ nav {
   padding: 12px 0 0 14px;
   font-style: italic;
   font-size: 14px;
+  word-spacing: 0.6px;
 }
 .wallPostUserName {
   font-weight: bold;
@@ -90,15 +107,18 @@ nav {
   padding: 14px 14px 16px 14px;
   font-size: 14px;
   line-height: 18px;
+  word-spacing: 0.6px;
 }
 .newPostInput {
-  border: none;
+  border: 2px solid white;
   display: block;
   width: 100%;
   border-radius: 18px 18px 0 0;
-  padding: 10px 14px;
+  padding: 12px 14px;
   resize: none;
   font-size: 14px;
+  line-height: 18px;
+  word-spacing: 0.6px;
 }
 .postBtn {
   height: 44px;
@@ -120,15 +140,6 @@ nav {
   display: flex;
   align-items: center;
 }
-.loginWindow {
-  position: relative;
-  background: white;
-  // width: 100%;
-  width: 280px;
-  margin: 0 auto;
-  padding: 40px 20px 30px 20px;
-  border-radius: 20px;
-}
 .loginInput,
 .signUpInput {
   height: 40px;
@@ -139,20 +150,15 @@ nav {
   padding-left: 10px;
   font-size: 14px;
 }
-// .loginInput:nth-child(2) {
-//   margin-bottom: 20px;
-// }
-// .loginInput:first-child {
-//   margin-bottom: 10px;
-// }
 .loginWindowBtns {
   display: block;
   width: 170px;
   height: 38px;
   margin: 0 auto;
   border: none;
-  border-radius: 20px;
+  border-radius: 30px;
   color: white;
+  font-size: 16px;
 }
 #loginAccountBtn {
   background-color: #27b2c8;
@@ -166,8 +172,7 @@ nav {
 #signUpBtn {
   margin-top: 10px;
 }
-.closeLoginWindowBtn,
-.closeSignUpWindowBtn {
+.closeWindowBtn {
   background-color: #a51f1f;
   width: 40px;
   height: 40px;
@@ -182,10 +187,10 @@ nav {
   justify-content: center;
   align-items: center;
 }
+.loginWindow,
 .signUpWindow {
   position: relative;
   background: white;
-  // width: 100%;
   width: 280px;
   margin: 0 auto;
   padding: 40px 20px 30px 20px;
@@ -198,12 +203,13 @@ nav {
   height: 40px;
   padding-left: 10px;
   font-size: 14px;
+  margin-bottom: 10px;
 }
 .nameInput:first-child {
   margin-right: 10px;
 }
 .nameInputField {
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
   display: flex;
 }
 // .signUpInput {
@@ -220,4 +226,49 @@ nav {
 // }
 .inputErrors {
   font-size: 14px;
+}
+
+.loginInput:focus,
+.loginInput:focus-within,
+.nameInput:focus,
+.nameInput:focus-within,
+.signUpInput:focus,
+.signUpInput:focus-within {
+  border: 1px solid #067ffc;
+  outline: none;
+}
+button:focus,
+button:focus-within {
+  outline: none;
+  border: none;
+}
+.newPostInput:focus,
+.newPostInput:focus-within {
+  border: 2px solid #067ffc;
+  outline: none;
+}
+
+.navLoginBtn:active {
+  background-color: #75999f;
+}
+.postBtn:active,
+#createAccountBtn:active,
+#signUpBtn:active {
+  background-color: #3e843e;
+}
+#loginAccountBtn:active {
+  background-color: #146876;
+}
+.closeWindowBtn:active,
+.closeWindowBtn:active {
+  background-color: #641111;
+}
+.passwordIconField {
+  position: relative;
+}
+.passwordIcon {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  color: #606060;
 }

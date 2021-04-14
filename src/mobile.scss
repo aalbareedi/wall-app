@@ -1,0 +1,203 @@
+@media only screen and (min-width: 375px) {
+  .newPostInput {
+    font-size: 16px;
+    line-height: 22px;
+  }
+  .wallPostUser {
+    font-size: 16px;
+  }
+  .wallPostMessage {
+    font-size: 16px;
+    line-height: 22px;
+  }
+  .postBtn {
+    font-size: 20px;
+  }
+  .currentUser {
+    font-size: 16px;
+    padding-top: 8px;
+    height: 36px;
+  }
+  .wallFeed {
+    padding: 14px;
+  }
+  .newPost {
+    margin-bottom: 14px;
+  }
+  .wallPost {
+    margin-bottom: 14px;
+  }
+  .navLoginBtn {
+    width: 78px;
+  }
+  .navLoginIcon {
+    padding-top: 0px;
+  }
+  .navLoginText {
+    font-size: 16px;
+  }
+  .loginWindow,
+  .signUpWindow {
+    width: 300px;
+  }
+}
+
+/* Surface Duo */
+@media only screen and (min-width: 540px) {
+  .wallFeed {
+    max-width: 430px;
+    margin: 0 auto;
+    padding-top: 18px;
+  }
+  .newPost,
+  .wallPost {
+    margin-bottom: 18px;
+  }
+  .loginWindow,
+  .signUpWindow {
+    width: 340px;
+  }
+  .loginInput,
+  .signUpInput,
+  .nameInput {
+    font-size: 16px;
+    height: 46px;
+    margin-bottom: 12px;
+  }
+  .passwordIcon {
+    font-size: 20px;
+    right: 14px;
+    top: 14px;
+  }
+  .loginWindowBtns {
+    font-size: 18px;
+    width: 180px;
+    height: 42px;
+  }
+  .nameInput:first-child {
+    margin-right: 12px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .wallFeed {
+    padding: 22px;
+    max-width: 450px;
+    background: gainsboro;
+  }
+  .newPost,
+  .wallPost {
+    margin-bottom: 22px;
+  }
+  .wallPostUser {
+    font-size: 18px;
+    height: 44px;
+  }
+  .wallPostMessage {
+    font-size: 18px;
+    line-height: 24px;
+    padding: 16px 16px 18px 16px;
+    word-spacing: 1px;
+  }
+  .postBtn {
+    font-size: 22px;
+    height: 52px;
+  }
+  .newPostInput {
+    font-size: 18px;
+    line-height: 24px;
+    word-spacing: 1px;
+  }
+  .loginInput,
+  .signUpInput,
+  .nameInput {
+    font-size: 20px;
+    height: 54px;
+    padding-left: 12px;
+    margin-bottom: 14px;
+  }
+  .closeWindowBtn {
+    width: 54px;
+    height: 54px;
+    top: -24px;
+    left: -24px;
+    font-size: 24px;
+  }
+  .passwordIcon {
+    font-size: 22px;
+    right: 16px;
+    top: 16px;
+  }
+  .loginWindowBtns {
+    font-size: 22px;
+    width: 230px;
+    height: 52px;
+  }
+  .loginWindow,
+  .signUpWindow {
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 420px;
+  }
+  #loginAccountBtn {
+    margin-bottom: 12px;
+  }
+  .nameInput:first-child {
+    margin-right: 14px;
+  }
+  .deletePostBtn {
+    height: 44px;
+    width: 44px;
+    font-size: 18px;
+  }
+  .navLoginBtn {
+    width: 92px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  nav {
+    height: 80px;
+  }
+  .wallFeed {
+    max-width: 500px;
+  }
+  .wallPostMessage {
+    font-size: 20px;
+    line-height: 28px;
+    padding: 18px 18px 20px 18px;
+  }
+  .wallPostUser {
+    font-size: 20px;
+    height: 48px;
+    padding-left: 18px;
+  }
+  .deletePostBtn {
+    height: 48px;
+    width: 48px;
+    font-size: 20px;
+  }
+  .wallLogo {
+    width: 64px;
+  }
+  .logoText {
+    font-size: 28px;
+    left: 76px;
+    top: 26px;
+  }
+  .currentUser {
+    font-size: 18px;
+    height: 40px;
+    word-spacing: 1px;
+  }
+  .navLoginIcon {
+    font-size: 32px;
+  }
+  .navLoginText {
+    margin-top: 5px;
+  }
+  .newPostInput {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}

@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./normalize.css";
 import "./App.css";
+import "./mobile.css";
 import React from "react";
 
 class App extends React.Component {
@@ -18,10 +19,14 @@ class App extends React.Component {
     loginPasswordInput: "",
     loginErrors: [],
     newPostMessage: "",
+    wallPosts: [],
+    isLoginPasswordVisible: false,
+    isSignupPasswordVisible: false,
+    backEndUrl: "http://localhost:3000",
   };
 
   componentDidMount() {
-    fetch("http://localhost:3000/api/login.php", {
+    fetch(this.state.backEndUrl + "/api/login.php", {
       method: "GET",
       credentials: "include",
     })
@@ -33,6 +38,8 @@ class App extends React.Component {
           this.setState({ signedInUser: data.user });
         }
       });
+
+    this.readPosts();
   }
 
   dataToDivs(data) {
@@ -45,13 +52,84 @@ class App extends React.Component {
     return dataDivs;
   }
 
+  postsToDivs(data) {
+    let postsDivs = [];
+
+    for (let i = 0; i < data.length; i++) {
+      postsDivs.unshift(
+        <div className="wallPost">
+          <div className="wallPostUser">
+            <span className="wallPostUserName">
+              {data[i].user.firstName + " " + data[i].user.lastName + " "}
+            </span>
+            wrote...
+          </div>
+          <div className="wallPostMessage">{data[i].message}</div>
+          <button
+            className={
+              "deletePostBtn " +
+              (this.state.signedInUser != null &&
+              data[i].user.id == this.state.signedInUser.id
+                ? ""
+                : "hideElement")
+            }
+            onClick={() => {
+              fetch(this.state.backEndUrl + "/api/posts.php", {
+                method: "DELETE",
+                credentials: "include",
+                body: JSON.stringify({
+                  id: data[i].id,
+                }),
+              }).then(() => {
+                this.readPosts();
+              });
+            }}
+          >
+            <i className="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      );
+    }
+
+    return postsDivs;
+  }
+
+  readPosts() {
+    fetch(this.state.backEndUrl + "/api/posts.php", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        this.setState({ wallPosts: data.posts });
+      });
+  }
+
+  resetForms() {
+    this.setState({
+      signUpErrors: [],
+      firstNameInput: "",
+      lastNameInput: "",
+      signUpEmailInput: "",
+      signUpConfirmEmailInput: "",
+      signUpPasswordInput: "",
+      loginErrors: [],
+      loginEmailInput: "",
+      loginPasswordInput: "",
+      isLoginPasswordVisible: false,
+      isSignupPasswordVisible: false,
+    });
+  }
+
   render() {
     return (
       <div>
         <nav>
           <img className="wallLogo" src="./wallLogo.svg" />
           <div className="logoText">Wall App</div>
-          <div
+          <button
             className={
               "navLoginBtn " +
               (this.state.signedInUser != null ? "hideElement" : "")
@@ -62,14 +140,14 @@ class App extends React.Component {
           >
             <i className="far fa-user navLoginIcon"></i>
             <div className="navLoginText">Sign In</div>
-          </div>
-          <div
+          </button>
+          <button
             className={
               "navLoginBtn " +
               (this.state.signedInUser != null ? "" : "hideElement")
             }
             onClick={() => {
-              fetch("http://localhost:3000/api/login.php", {
+              fetch(this.state.backEndUrl + "/api/login.php", {
                 method: "DELETE",
                 credentials: "include",
               }).then(() => {
@@ -79,7 +157,7 @@ class App extends React.Component {
           >
             <i className="fas fa-user navLoginIcon"></i>
             <div className="navLoginText">Sign Out</div>
-          </div>
+          </button>
         </nav>
 
         <div
@@ -103,64 +181,39 @@ class App extends React.Component {
           <div className="newPost">
             <textarea
               className="newPostInput"
+              placeholder="What's on your mind?"
               onInput={(event) => {
                 this.setState({ newPostMessage: event.target.value });
               }}
+              value={this.state.newPostMessage}
             ></textarea>
             <button
               className="postBtn"
               onClick={() => {
-                fetch("http://localhost:3000/api/posts.php", {
-                  method: "POST",
-                  credentials: "include",
-                  body: JSON.stringify({ message: this.state.newPostMessage }),
-                })
-                  .then((response) => {
-                    return response.json();
+                if (this.state.signedInUser != null) {
+                  fetch(this.state.backEndUrl + "/api/posts.php", {
+                    method: "POST",
+                    credentials: "include",
+                    body: JSON.stringify({
+                      message: this.state.newPostMessage,
+                    }),
                   })
-                  .then((data) => {
-                    // data.errors: the errors from creating a post
-
-                    if (data.errors.length == 0) {
-                      fetch("http://localhost:3000/api/posts.php", {
-                        method: "GET",
-                        credentials: "include",
-                      })
-                        .then((response) => {
-                          return response.json();
-                        })
-                        .then(() => {});
-                    }
-                  });
+                    .then((response) => {
+                      return response.json();
+                    })
+                    .then((data) => {
+                      this.readPosts();
+                      this.setState({ newPostMessage: "" });
+                    });
+                } else {
+                  this.setState({ isLoginWindowOpen: true });
+                }
               }}
             >
               Post
             </button>
           </div>
-          <div className="wallPost">
-            <div className="wallPostUser">
-              <span className="wallPostUserName">Amer Albareedi</span> wrote...
-            </div>
-            <div className="wallPostMessage">
-              This is an example message that is being posted on my Wall App.
-            </div>
-          </div>
-          <div className="wallPost">
-            <div className="wallPostUser">
-              <span className="wallPostUserName">Jon Doe</span> wrote...
-            </div>
-            <div className="wallPostMessage">
-              This is an example message that is being posted on my Wall App.
-            </div>
-          </div>
-          <div className="wallPost">
-            <div className="wallPostUser">
-              <span className="wallPostUserName">Jon Doe</span> wrote...
-            </div>
-            <div className="wallPostMessage">
-              This is an example message that is being posted on my Wall App.
-            </div>
-          </div>
+          {this.postsToDivs(this.state.wallPosts)}
         </div>
 
         <div
@@ -172,11 +225,38 @@ class App extends React.Component {
               : "hideElement")
           }
         >
-          <div
+          <form
             className={
               "loginWindow " +
               (this.state.isLoginWindowOpen == true ? "" : "hideElement")
             }
+            onSubmit={(event) => {
+              event.preventDefault();
+
+              fetch(this.state.backEndUrl + "/api/login.php", {
+                method: "PUT",
+                credentials: "include",
+                body: JSON.stringify({
+                  email: this.state.loginEmailInput,
+                  password: this.state.loginPasswordInput,
+                }),
+              })
+                .then((response) => {
+                  return response.json();
+                })
+                .then((data) => {
+                  if (data.errors.length == 0) {
+                    this.setState({
+                      signedInUser: data.user,
+                      isLoginWindowOpen: false,
+                      isSignUpWindowOpen: false,
+                    });
+                    this.resetForms();
+                  } else {
+                    this.setState({ loginErrors: data.errors });
+                  }
+                });
+            }}
           >
             <input
               className="loginInput"
@@ -186,55 +266,42 @@ class App extends React.Component {
               }}
               value={this.state.loginEmailInput}
             />
-            <input
-              className="loginInput"
-              placeholder="Password"
-              onInput={(event) => {
-                this.setState({ loginPasswordInput: event.target.value });
-              }}
-              value={this.state.loginPasswordInput}
-            />
+            <div className="passwordIconField">
+              <input
+                className="loginInput"
+                placeholder="Password"
+                type={
+                  this.state.isLoginPasswordVisible == true ? "" : "password"
+                }
+                onInput={(event) => {
+                  this.setState({ loginPasswordInput: event.target.value });
+                }}
+                value={this.state.loginPasswordInput}
+              />
+              <i
+                className={
+                  "fas passwordIcon " +
+                  (this.state.isLoginPasswordVisible == true
+                    ? "fa-eye"
+                    : "fa-eye-slash")
+                }
+                onClick={() => {
+                  this.setState({
+                    isLoginPasswordVisible: !this.state.isLoginPasswordVisible,
+                  });
+                }}
+              ></i>
+            </div>
             <div className="inputErrors">
               {this.dataToDivs(this.state.loginErrors)}
             </div>
-            <button
-              className="loginWindowBtns"
-              id="loginAccountBtn"
-              onClick={() => {
-                fetch("http://localhost:3000/api/login.php", {
-                  method: "PUT",
-                  credentials: "include",
-                  body: JSON.stringify({
-                    email: this.state.loginEmailInput,
-                    password: this.state.loginPasswordInput,
-                  }),
-                })
-                  .then((response) => {
-                    return response.json();
-                  })
-                  .then((data) => {
-                    if (data.errors.length == 0) {
-                      this.setState({ loginErrors: [] });
-                      this.setState({ signedInUser: data.user });
-                      this.setState({
-                        isLoginWindowOpen: false,
-                        isSignUpWindowOpen: false,
-                      });
-                      this.setState({
-                        loginEmailInput: "",
-                        loginPasswordInput: "",
-                      });
-                    } else {
-                      this.setState({ loginErrors: data.errors });
-                    }
-                  });
-              }}
-            >
+            <button className="loginWindowBtns" id="loginAccountBtn">
               Login
             </button>
             <button
               className="loginWindowBtns"
               id="createAccountBtn"
+              type="button"
               onClick={() => {
                 this.setState({
                   isSignUpWindowOpen: true,
@@ -245,20 +312,57 @@ class App extends React.Component {
               Create Account
             </button>
             <button
-              className="closeLoginWindowBtn"
+              className="closeWindowBtn"
+              type="button"
               onClick={() => {
                 this.setState({ isLoginWindowOpen: false });
+                this.resetForms();
               }}
             >
               <i className="fas fa-times"></i>
             </button>
-          </div>
+          </form>
 
-          <div
+          <form
             className={
               "signUpWindow " +
               (this.state.isSignUpWindowOpen == true ? "" : "hideElement")
             }
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (
+                this.state.signUpEmailInput !=
+                this.state.signUpConfirmEmailInput
+              ) {
+                this.setState({ signUpErrors: ["Emails do not match."] });
+              } else {
+                fetch(this.state.backEndUrl + "/api/signup.php", {
+                  method: "POST",
+                  credentials: "include",
+                  body: JSON.stringify({
+                    firstName: this.state.firstNameInput,
+                    lastName: this.state.lastNameInput,
+                    email: this.state.signUpEmailInput,
+                    password: this.state.signUpPasswordInput,
+                  }),
+                })
+                  .then((response) => {
+                    return response.json();
+                  })
+                  .then((data) => {
+                    if (data.errors.length != 0) {
+                      this.setState({ signUpErrors: data.errors });
+                    } else {
+                      this.setState({
+                        signedInUser: data.user,
+                        isLoginWindowOpen: false,
+                        isSignUpWindowOpen: false,
+                      });
+                      this.resetForms();
+                    }
+                  });
+              }
+            }}
           >
             <div className="nameInputField">
               <input
@@ -295,78 +399,52 @@ class App extends React.Component {
               }}
               value={this.state.signUpConfirmEmailInput}
             />
-            <input
-              className="signUpInput"
-              placeholder="Password"
-              onInput={(event) => {
-                this.setState({ signUpPasswordInput: event.target.value });
-              }}
-              value={this.state.signUpPasswordInput}
-            />
+            <div className="passwordIconField">
+              <input
+                className="signUpInput"
+                placeholder="Password"
+                type={
+                  this.state.isSignupPasswordVisible == true ? "" : "password"
+                }
+                onInput={(event) => {
+                  this.setState({ signUpPasswordInput: event.target.value });
+                }}
+                value={this.state.signUpPasswordInput}
+              />
+              <i
+                className={
+                  "fas passwordIcon " +
+                  (this.state.isSignupPasswordVisible == true
+                    ? "fa-eye"
+                    : "fa-eye-slash")
+                }
+                onClick={() => {
+                  this.setState({
+                    isSignupPasswordVisible: !this.state
+                      .isSignupPasswordVisible,
+                  });
+                }}
+              ></i>
+            </div>
 
             <div className="inputErrors">
               {this.dataToDivs(this.state.signUpErrors)}
             </div>
 
-            <button
-              className="loginWindowBtns"
-              id="signUpBtn"
-              onClick={() => {
-                console.log(this.state);
-
-                if (
-                  this.state.signUpEmailInput !=
-                  this.state.signUpConfirmEmailInput
-                ) {
-                  this.setState({ signUpErrors: ["Emails do not match."] });
-                } else {
-                  fetch("http://localhost:3000/api/signup.php", {
-                    method: "POST",
-                    credentials: "include",
-                    body: JSON.stringify({
-                      firstName: this.state.firstNameInput,
-                      lastName: this.state.lastNameInput,
-                      email: this.state.signUpEmailInput,
-                      password: this.state.signUpPasswordInput,
-                    }),
-                  })
-                    .then((response) => {
-                      return response.json();
-                    })
-                    .then((data) => {
-                      if (data.errors.length != 0) {
-                        this.setState({ signUpErrors: data.errors });
-                      } else {
-                        this.setState({ signedInUser: data.user });
-                        this.setState({ signUpErrors: [] });
-                        this.setState({
-                          isLoginWindowOpen: false,
-                          isSignUpWindowOpen: false,
-                        });
-                        this.setState({
-                          firstNameInput: "",
-                          lastNameInput: "",
-                          signUpEmailInput: "",
-                          signUpConfirmEmailInput: "",
-                          signUpPasswordInput: "",
-                        });
-                        // console.log(data.user);
-                      }
-                    });
-                }
-              }}
-            >
+            <button className="loginWindowBtns" id="signUpBtn">
               Sign Up
             </button>
             <button
-              className="closeSignUpWindowBtn"
+              className="closeWindowBtn"
+              type="button"
               onClick={() => {
                 this.setState({ isSignUpWindowOpen: false });
+                this.resetForms();
               }}
             >
               <i className="fas fa-times"></i>
             </button>
-          </div>
+          </form>
         </div>
       </div>
     );
