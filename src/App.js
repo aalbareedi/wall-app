@@ -22,11 +22,11 @@ class App extends React.Component {
     wallPosts: [],
     isLoginPasswordVisible: false,
     isSignupPasswordVisible: false,
-    backEndUrl: "http://localhost:3000",
+    backEndUrl: "http://localhost:3000/",
   };
 
   componentDidMount() {
-    fetch(this.state.backEndUrl + "/api/login.php", {
+    fetch(this.state.backEndUrl + "api/login.php", {
       method: "GET",
       credentials: "include",
     })
@@ -74,7 +74,7 @@ class App extends React.Component {
                 : "hideElement")
             }
             onClick={() => {
-              fetch(this.state.backEndUrl + "/api/posts.php", {
+              fetch(this.state.backEndUrl + "api/posts.php", {
                 method: "DELETE",
                 credentials: "include",
                 body: JSON.stringify({
@@ -95,7 +95,7 @@ class App extends React.Component {
   }
 
   readPosts() {
-    fetch(this.state.backEndUrl + "/api/posts.php", {
+    fetch(this.state.backEndUrl + "api/posts.php", {
       method: "GET",
       credentials: "include",
     })
@@ -147,7 +147,7 @@ class App extends React.Component {
               (this.state.signedInUser != null ? "" : "hideElement")
             }
             onClick={() => {
-              fetch(this.state.backEndUrl + "/api/login.php", {
+              fetch(this.state.backEndUrl + "api/login.php", {
                 method: "DELETE",
                 credentials: "include",
               }).then(() => {
@@ -191,7 +191,7 @@ class App extends React.Component {
               className="postBtn"
               onClick={() => {
                 if (this.state.signedInUser != null) {
-                  fetch(this.state.backEndUrl + "/api/posts.php", {
+                  fetch(this.state.backEndUrl + "api/posts.php", {
                     method: "POST",
                     credentials: "include",
                     body: JSON.stringify({
@@ -233,7 +233,7 @@ class App extends React.Component {
             onSubmit={(event) => {
               event.preventDefault();
 
-              fetch(this.state.backEndUrl + "/api/login.php", {
+              fetch(this.state.backEndUrl + "api/login.php", {
                 method: "PUT",
                 credentials: "include",
                 body: JSON.stringify({
@@ -336,7 +336,7 @@ class App extends React.Component {
               ) {
                 this.setState({ signUpErrors: ["Emails do not match."] });
               } else {
-                fetch(this.state.backEndUrl + "/api/signup.php", {
+                fetch(this.state.backEndUrl + "api/signup.php", {
                   method: "POST",
                   credentials: "include",
                   body: JSON.stringify({
